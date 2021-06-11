@@ -1,0 +1,15 @@
+﻿@using CvtTest.Models
+@model List<Contact>
+
+@using (Html.BeginForm("SearchContact", "Contact", FormMethod.Post))
+{
+    if (Model != null)
+        foreach (var contact in Model)
+        {
+            <a href='@Url.Action("EditContact", "Contact", new { contact.Id })'>@string.Format("{0} {1}", contact.FirstName, contact.LastName)</a>
+            <br />
+        }
+    <input type="text" name="searchFor" value="@ViewData["searchFor"]" />
+    @Html.DropDownList("searchIn", new SelectList(Contact.GetSearchFields()), "Everywhere");
+    <input type="submit" value="Поиск" />
+}

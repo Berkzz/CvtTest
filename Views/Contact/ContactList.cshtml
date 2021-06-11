@@ -1,0 +1,18 @@
+﻿@using CvtTest.Models
+@model ContactContext
+<h3>Contact List</h3>
+@{
+    if(Model.Contacts.Count() == 0)
+    {
+        <div>Database is empty:(</div>
+    }
+    foreach (var contact in Model.Contacts)
+    {
+        <a href='@Url.Action("EditContact", "Contact", new { contact.Id })'>@string.Format("{0} {1}", contact.FirstName, contact.LastName)</a>
+        <br />
+    }
+}
+<br />
+<a href='@Url.Action("AddContact", "Contact")'>Add contact</a> <br />
+<a href='@Url.Action("SearchContact", "Contact")'>Search</a> <br />
+<a href='@Url.Action("ClearContact", "Contact")'>Clear database</a>

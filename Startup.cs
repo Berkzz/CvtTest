@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -17,6 +18,10 @@ namespace CvtTest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvcCore();
+            services.AddControllersWithViews(mvcOtions =>
+            {
+                mvcOtions.EnableEndpointRouting = false;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -26,7 +31,12 @@ namespace CvtTest
             {
                 app.UseDeveloperExceptionPage();
                 app.UseStaticFiles();
-          //      app.UseMvcWithDefaultRoute();
+                app.UseMvc(routes =>
+                {
+                    routes.MapRoute(
+                        name: "default",
+                        template: "{controller=Contact}/{action=ContactList}/{id?}");
+                });
             }
 
             app.UseRouting();

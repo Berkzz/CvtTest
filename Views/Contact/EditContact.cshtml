@@ -1,0 +1,49 @@
+﻿@using CvtTest.Models
+@model Contact
+
+@using (Html.BeginForm("EditContact", "Contact", FormMethod.Post))
+{
+    <div class="item">
+        <label>Имя:</label>
+        <input type="text" asp-for="firstName" name="firstName" value="@Model.FirstName" />
+        @Html.ValidationMessageFor(model => model.FirstName)
+        <br />
+    </div>
+    <div class="item">
+        <label>Фамилия:</label>
+        <input type="text" name="lastName" value="@Model.LastName" />
+        @Html.ValidationMessageFor(model => model.LastName)
+        <br />
+    </div>
+    <div class="item">
+        <label>Отчество:</label>
+        <input type="text" name="patronymic" value="@Model.Patronymic" /> <br />
+    </div>
+    <div class="item">
+        <label>Дата Рождения:</label>
+        <input type="text" name="dateOfBirth" value="@Model.DateOfBirth" /> <br />
+    </div>
+    <div class="item">
+        <label>Организация:</label>
+        <input type="text" name="organization" value="@Model.Organization" /> <br />
+    </div>
+    <div class="item">
+        <label>Должность:</label>
+        <input type="text" name="position" value="@Model.Position" /> <br />
+    </div>
+    <h3>Контактная информация</h3>
+    <label>Телефон:</label>
+    @Html.TextAreaFor(m => m.PhoneNumber, new { @style = "resize: vertical;" });
+    <br />
+    <label>Email:</label>
+    @Html.TextAreaFor(m => m.Email, new { @style = "resize: vertical;" });
+    <br />
+    <label>Skype:</label>
+    @Html.TextAreaFor(m => m.Skype, new { @style = "resize: vertical;" });
+    <br />
+    <label>Другое:</label>
+    @Html.TextAreaFor(m => m.Other, new { @style = "resize: vertical;" });
+    <br />
+    <input type="submit" value="Save" /> <br />
+    <a href='@Url.Action("DeleteContact", "Contact", new { id = Model.Id })'>Delete contact</a>
+}
