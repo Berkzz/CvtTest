@@ -1,5 +1,4 @@
-﻿@using CvtTest.Models
-@model Contact
+﻿@model Contact
 
 @using (Html.BeginForm("EditContact", "Contact", FormMethod.Post))
 {
@@ -44,6 +43,7 @@
     <label>Другое:</label>
     @Html.TextAreaFor(m => m.Other, new { @style = "resize: vertical;" });
     <br />
-    <input type="submit" value="Save" /> <br />
+    <input type="submit" value="Save" />
+    <br />
     <a href='@Url.Action("DeleteContact", "Contact", new { id = Model.Id })'>Delete contact</a>
 }

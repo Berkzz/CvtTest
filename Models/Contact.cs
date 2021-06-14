@@ -21,25 +21,23 @@ namespace CvtTest.Models
         public string Skype { get; set; }
         public string Other { get; set; }
 
-        public static string[] GetSearchFields()
+        public static string[] GetPropertiesNames() // получаем названия всех полей контакта
         {
             var propArray = typeof(Contact).GetProperties();
             var result = new List<string>();
             foreach(var prop in propArray)
-            {
                 result.Add(prop.Name);
-            }
             return result.ToArray();
         }
 
-        public void Copy(Contact toContact)
+        public void Copy(Contact toContact) // переписываем все свойства this в contact
         {
-            PropertyInfo[] toObjectProperties = toContact.GetType().GetProperties();
-            foreach (PropertyInfo propTo in toObjectProperties)
+            PropertyInfo[] toObjectProperties = toContact.GetType().GetProperties(); // получаем все публичные свойства объекта
+            foreach (PropertyInfo propTo in toObjectProperties) // пробегаемся по свойствам
             {
                 PropertyInfo propFrom = GetType().GetProperty(propTo.Name);
                 if (propFrom != null && propFrom.CanWrite)
-                    propTo.SetValue(toContact, propFrom.GetValue(this, null), null);
+                    propTo.SetValue(toContact, propFrom.GetValue(this, null), null); // переписываем свойство из this в toContact
             }
         }
     }

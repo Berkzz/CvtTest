@@ -1,5 +1,4 @@
-﻿@using CvtTest.Models
-@model List<Contact>
+﻿@model List<Contact>
 
 @using (Html.BeginForm("SearchContact", "Contact", FormMethod.Post))
 {
@@ -10,6 +9,6 @@
             <br />
         }
     <input type="text" name="searchFor" value="@ViewData["searchFor"]" />
-    @Html.DropDownList("searchIn", new SelectList(Contact.GetSearchFields()), "Everywhere");
+    @Html.DropDownList("searchIn", new SelectList(Contact.GetPropertiesNames()), "Everywhere");
     <input type="submit" value="Поиск" />
 }

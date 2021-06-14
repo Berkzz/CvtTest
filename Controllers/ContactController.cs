@@ -1,6 +1,6 @@
 ﻿using CvtTest.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using System.Data.Entity;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,14 +10,14 @@ namespace CvtTest.Controllers
     {
         ContactContext db = new ContactContext();
 
-        public ActionResult DeleteContact(int id)
+        public ActionResult DeleteContact(int id) // удаление контакта по id
         {
             db.Contacts.Remove(db.Contacts.Where(m => m.Id == id).FirstOrDefault());
             db.SaveChanges();
             return MainPage();
         }
 
-        public ActionResult ClearContact()
+        public ActionResult ClearContact() // очистка базы данных
         {
             db.Database.Delete();
             return MainPage();
@@ -29,7 +29,7 @@ namespace CvtTest.Controllers
             return View(db);
         }
 
-        public ActionResult MainPage()
+        public ActionResult MainPage() // возврат главной страницы 
         {
             return RedirectToRoute("default", new { controller = "Contact", action = "ContactList" });
         }
@@ -44,15 +44,16 @@ namespace CvtTest.Controllers
         [HttpPost]
         public ActionResult EditContact(Contact contact)
         {
-            if(!ModelState.IsValid)
+            if (contact == null) return MainPage();
+            if (!ModelState.IsValid) // валидация
             {
                 return View(contact);
             }
-            if (contact.Id == 0)
+            if (contact.Id == 0) // если объект контакта свежий, то добавляем его в базу данных
             {
                 db.Contacts.Add(contact);
             }
-            else
+            else // ищем контакт и заменяем его / редактируем
             {
                 var other = db.Contacts.Where(m => m.Id == contact.Id).FirstOrDefault();
                 contact.Copy(other);
@@ -83,7 +84,7 @@ namespace CvtTest.Controllers
             {
                 foreach(var field in contact.GetType().GetProperties())
                 {
-                    if (searchIn != field.Name && searchIn != null) continue;
+                    if (searchIn != field.Name && searchIn != null) continue; // поиск по определенному полю, null = everywhere
                     var value = field.GetValue(contact);
                     if (value != null && value.ToString() != null)
                         if (value.ToString().ToLower().Contains(searchFor.ToLower()))
